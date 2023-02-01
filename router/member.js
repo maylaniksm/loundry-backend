@@ -3,6 +3,7 @@ const app = express()
 
 // call model
 const member = require("../models/index").tb_member
+const transaksi = require("../models/index").tb_transaksi
 
 // allow request body
 app.use(express.urlencoded({extended:true}))
@@ -117,7 +118,7 @@ app.delete("/:id_member", async(req,res) => {
     let param = {
         id_member: req.params.id_member
     }
-
+    
     member.destroy({where: param})
     .then(result => {
         res.json({

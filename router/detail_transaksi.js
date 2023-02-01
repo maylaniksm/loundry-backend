@@ -3,6 +3,7 @@ const app = express()
 
 // call model
 const detail_transaksi = require("../models/index").tb_detail_transaksi
+const transaksi = require("../models/index").tb_transaksi
 
 // allow request body
 app.use(express.urlencoded({extended:true}))
@@ -116,7 +117,21 @@ app.delete("/:id_detail_transaksi", async(req,res) => {
     let param = {
         id_detail_transaksi: req.params.id_detail_transaksi
     }
-
+    await detail_transaksi.findOne(params,{ include: [{ all: true, nested: true }] }).then(async (reslt)=>{
+        let paramT = {
+            id_transaksi: reslt.id_transaksi
+        }
+        harga = 0
+        .transaksi.findOne(paramT).then((resT)=>{
+            harga = resT.total - (reslt.tb_paket.harga * reslt.qty)
+        })
+        let data = {
+            total : harga
+        }
+        await transaksi
+            .update(data, { where: paramT })
+        console.log(harga)
+    })
     detail_transaksi.destroy({where: param})
     .then(result => {
         res.json({

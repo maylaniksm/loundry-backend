@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id_user',
         as: 'tb_user'
       })
+      this.hasMany(models.tb_detail_transaksi,{
+        foreignKey:'id_transaksi',
+        as:'tb_detail_transaksi'
+      })
     }
   };
   tb_transaksi.init({
@@ -33,6 +37,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull:false
     },
     id_outlet: DataTypes.INTEGER,
+    id_paket: DataTypes.INTEGER,
     kode_invoice: DataTypes.STRING,
     id_member: DataTypes.INTEGER,
     tgl: DataTypes.DATE,
@@ -42,6 +47,7 @@ module.exports = (sequelize, DataTypes) => {
     diskon: DataTypes.INTEGER,
     pajak: DataTypes.INTEGER,
     status: DataTypes.STRING,
+    total: DataTypes.INTEGER,
     dibayar: DataTypes.STRING,
     id_user: DataTypes.INTEGER
   }, {

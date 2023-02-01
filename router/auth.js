@@ -14,14 +14,13 @@ app.post('/', async (req,res) => {
     // put data
     let data = {
         username: req.body.username,
-        password: md5(req.body.password),
-        role: req.body.role
+        password: md5(req.body.password)
     }
     let result = await user.findOne({where:data})
 
     if(result === null){
-        res.json({
-            message: "invalid username or password or level",
+        res.status(403).json({
+            message: "invalid username or password",
             logged: false
         })
     } else {
@@ -43,6 +42,42 @@ app.post('/', async (req,res) => {
             token: token,
             logged: true
         })
+    }
+})
+app.get('/me', async(req,res)=>{
+    // get jwt from header
+    let header = req.headers.authorization
+    let token = null
+
+    if(header != null){
+        // get token from second side
+        token = header.split(" ")[1]
+    }
+
+    if(token == null){
+        res.status(403).json({
+            message: "unauthorized"
+        })
+    } else {
+        // jwt
+        let jwtHeader = {
+            algorithm: "HS256"
+        }
+        
+        let secretKey = "tesukl"
+
+        jwt.verify(token, secretKey, jwtHeader, (err, user) => {
+            if(err){
+                res.status(403).json({
+                    message: "Invalid or expired token",
+                    Token: token
+                })
+            }else{
+                res.json({
+                    user: user.data
+                })
+            }
+        }) 
     }
 })
 

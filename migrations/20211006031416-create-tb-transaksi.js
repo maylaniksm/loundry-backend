@@ -16,6 +16,14 @@ module.exports = {
           key: "id_outlet"
         }
       },
+      id_paket: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model : "tb_paket",
+          key: "id_paket"
+        }
+      },
       kode_invoice: {
         type: Sequelize.STRING
       },
@@ -46,6 +54,9 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       status: {
+        type: Sequelize.STRING
+      },
+      total: {
         type: Sequelize.STRING
       },
       dibayar: {

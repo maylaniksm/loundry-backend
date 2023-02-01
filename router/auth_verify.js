@@ -11,7 +11,7 @@ auth_verify = (req, res, next) => {
     }
 
     if(token == null){
-        res.json({
+        res.status(403).json({
             message: "unauthorized"
         })
     } else {
@@ -24,7 +24,7 @@ auth_verify = (req, res, next) => {
 
         jwt.verify(token, secretKey, jwtHeader, err => {
             if(err){
-                res.json({
+                res.status(403).json({
                     message: "Invalid or expired token",
                     Token: token
                 })

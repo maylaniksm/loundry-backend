@@ -17,7 +17,7 @@ module.exports = {
         }
       },
       jenis: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       nama_paket: {
         type: Sequelize.STRING
